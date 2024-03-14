@@ -14,6 +14,6 @@ export enum Env{
 export const settings:Settings ={
     title:'赛事报名系统',
     env:Env.Dev,
-    baseURL:"http://127.0.0.1:8085",
-    mockURL:'http://127.0.0.1:8088',
+    baseURL:"http://121.40.35.81:8085",
+    mockURL:'http://127.0.0.1:8085',
 }

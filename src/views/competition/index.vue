@@ -63,7 +63,7 @@ const getExcel = () => {
 
     if (!(input.value == "")) {
         axios({
-            url: 'http://127.0.0.1:8085/competition/download',
+            url: 'http://121.40.35.81:8085/competition/download',
             method: 'GET',
             responseType: 'blob', // Important
             params: {
@@ -88,7 +88,7 @@ const getExcel3 = () => {
     // });
     if (!(input.value == "")) {
         axios({
-            url: 'http://127.0.0.1:8085/competition/exportSheet',
+            url: 'http://121.40.35.81:8085/competition/exportSheet',
             method: 'GET',
             responseType: 'blob', // Important
             params: {
@@ -112,7 +112,7 @@ const getExcel2 = () => {
     // });
     if (!(input2.value == "")) {
         axios({
-            url: 'http://127.0.0.1:8085/team/download',
+            url: 'http://121.40.35.81/team/download',
             method: 'GET',
             responseType: 'blob', // Important
             params: {
