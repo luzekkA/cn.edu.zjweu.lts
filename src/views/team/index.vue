@@ -24,7 +24,8 @@
                 <el-table-column label="操作">
 
                     <template #default="scope">
-                        <router-link :to="{ path: '/team/info', query: { teamId: scope.row.id } }"  @click.native="setCurrentTeamId(scope.row.id)">
+                        <router-link :to="{ path: '/team/info', query: { teamId: scope.row.id } }"
+                            @click.native="setCurrentTeamId(scope.row.id)">
                             <el-button class="thirdparty-button" type="primary">
                                 队伍详情
                             </el-button>
@@ -62,25 +63,34 @@ let joinTeamViewModel = reactive({
 });
 
 const handleJoin = (joinTeamViewModel: any) => {
-    joinTeam(joinTeamViewModel).then(res => {
-        //@ts-ignore
-        if (res.code != 2000) {
-            ElMessage({
-                message: '队伍加入成功',
-                type: 'success',
-            })
-            location.reload();
-        }
-        else {
-            ElMessage({
-                message: '队伍加入失败',
-                type: 'error',
-            })
-            location.reload();
-        }
-    })
+    if (!(joinTeamViewModel.invitation == "")) {
+        joinTeam(joinTeamViewModel).then(res => {
+            //@ts-ignore
+            if (res.code != 2000) {
+                ElMessage({
+                    message: '队伍加入成功',
+                    type: 'success',
+                })
+                location.reload();
+            }
+            else {
+                ElMessage({
+                    message: '队伍加入失败',
+                    type: 'error',
+                })
+                location.reload();
+            }
+        })
+    } else {
+        ElMessage({
+            message: '请输入队伍邀请码',
+            type: 'error',
+        })
+
+
+    }
 }
-const setCurrentTeamId=(teamid:any)=>{
+const setCurrentTeamId = (teamid: any) => {
     userStore.temp_teamId = teamid
 }
 </script>
