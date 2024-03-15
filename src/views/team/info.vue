@@ -131,7 +131,8 @@ const handleOtherQuit = (phone: string) => {
 const handleGamerQuit = (id: any) => {
     console.log(id);
     quitTeamById(teamId.value, id).then(res => {
-        if (res.data.code == 2000) {
+        //@ts-ignore
+        if (res.code == 2000) {
             ElMessage({
                 message: '队伍退出成功',
                 type: 'success',
