@@ -59,7 +59,7 @@ export const asyncRoutes: Array<RouteRecordRaw> = [
         component: () => import('../views/Layout/index.vue'),
         meta: {
             name: '队伍',
-            roles: ['admin', 'user', 'teacher', 'editor']
+            roles: ['admin', 'coach', 'leader', 'player']
         },
         children: [
             {
@@ -111,14 +111,14 @@ export const asyncRoutes: Array<RouteRecordRaw> = [
         component: () => import('../views/Layout/index.vue'),
         meta: {
             name: '比赛',
-            roles: ['admin','user', 'teacher', 'editor']
+            roles: ['admin', 'coach', 'leader', 'player']
         },
         children: [
             {
                 path: 'create',
                 name: "创建比赛",
                 meta:{
-                    roles: ['admin', 'user', 'teacher', 'editor']
+                    roles: ['admin']
                 },
                 component: () => import('../views/competition/create.vue'),
             },
@@ -126,7 +126,7 @@ export const asyncRoutes: Array<RouteRecordRaw> = [
                 path: 'index',
                 name: "比赛详情",
                 meta:{
-                    roles: ['admin', 'user', 'teacher', 'editor']
+                    roles: ['admin', 'coach', 'leader', 'player']
                 },
                 component: () => import('../views/competition/index.vue'),
             }
@@ -138,14 +138,14 @@ export const asyncRoutes: Array<RouteRecordRaw> = [
         component: () => import('../views/Layout/index.vue'),
         meta: {
             name: '缴费相关',
-            roles: ['admin','user', 'teacher', 'editor']
+            roles: ['admin', 'coach', 'leader', 'player']
         },
         children: [
             {
                 path: 'index',
                 name: "提交缴费凭证",
                 meta:{
-                    roles: ['admin', 'user', 'teacher', 'editor']
+                    roles: ['admin', 'coach', 'leader', 'player']
                 },
                 component: () => import('../views/payment/index.vue'),
             },
