@@ -130,10 +130,11 @@ const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return
   formEl.validate((valid) => {
     if (valid) {
-      // let data = { ...ruleForm }
-      const { confirmpassword, ...data } = ruleForm;
+      let data = { ...ruleForm }
+      // const { confirmpa ...data } = ruleForm;
       register(data).then((res) => {
-        if (res.data.code == 20000) {
+        //@ts-ignore
+        if (res.code == 20000) {
           ElMessage({
             message: '用户注册成功',
             type: 'success',
