@@ -90,7 +90,8 @@ const submitForm = async (formEl: FormInstance | undefined) => {
       let data = { ...ruleForm }
       // const data = ruleForm;
       createTeam(data).then((res) => {
-        if (res.data.code == 20000) {
+        //@ts-ignore
+        if (res.code == 20000) {
           ElMessage({
             message: '队伍创建成功',
             type: 'success',

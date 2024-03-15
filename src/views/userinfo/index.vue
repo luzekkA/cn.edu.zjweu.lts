@@ -137,7 +137,8 @@ const submitForm = async (formEl: FormInstance | undefined) => {
             let data = { ...ruleForm }
             // const data = ruleForm;
             edit(data).then((res) => {
-                if (res.data.code == 20000) {
+                //@ts-ignore
+                if (res.code == 20000) {
                     ElMessage({
                         message: '用户信息更改成功',
                         type: 'success',

@@ -63,7 +63,8 @@ let joinTeamViewModel = reactive({
 
 const handleJoin = (joinTeamViewModel: any) => {
     joinTeam(joinTeamViewModel).then(res => {
-        if (res.data.code != 2000) {
+        //@ts-ignore
+        if (res.code != 2000) {
             ElMessage({
                 message: '队伍加入成功',
                 type: 'success',
