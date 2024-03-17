@@ -1,9 +1,9 @@
 <template>
-  <el-radio-group v-model="isCollapse" style="margin-bottom: 20px;margin-top: 20px;">
+  <!-- <el-radio-group v-model="isCollapse" style="margin-bottom: 20px;margin-top: 20px;">
     <el-radio-button :label="false">展开</el-radio-button>
     <el-radio-button :label="true">收起</el-radio-button>
-  </el-radio-group>
-  <el-menu default-active="2" class="el-menu-vertical-demo" :collapse="isCollapse" @open="handleOpen"
+  </el-radio-group> -->
+  <el-menu default-active="2" class="el-menu-vertical-demo" :collapse="isCollapse"  @open="handleOpen"
     @close="handleClose">
     <div v-for="(route, index) in list">
 
@@ -54,7 +54,7 @@ const router = useRouter()
 const routesStore = useRoutesStore()
 let list = routesStore.routesList;
 console.log(list, "this is list")
-const isCollapse = ref(true)
+const isCollapse = ref(false)
 const handleOpen = (key: string, keyPath: string[]) => {
   console.log(key, keyPath)
 }

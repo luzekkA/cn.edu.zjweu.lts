@@ -2,23 +2,23 @@
     <div class="Competition">
         <!-- 文件上传 -->
         <file-upload
-            v-if="userStore.userRolesList && (userStore.userRolesList.includes('admin') || userStore.userRolesList.includes('leader'))"
+            v-if="userStore.userRolesList && (userStore.userRolesList.includes('admin'))"
             style="margin-top: 20px; margin-left: 20px;"></file-upload>
         <!-- 表格下载 -->
         <el-input
-            v-if="userStore.userRolesList && (userStore.userRolesList.includes('admin') || userStore.userRolesList.includes('leader'))"
-            style="width: 200px; margin-left: 20px; margin-top:20px;" v-model="input" placeholder="请输入比赛名称"></el-input>
+            v-if="userStore.userRolesList && (userStore.userRolesList.includes('admin'))"
+            style="width: 200px; margin-left: 0px; margin-top:20px;" v-model="input" placeholder="请输入比赛名称"></el-input>
         <el-button
-            v-if="userStore.userRolesList && (userStore.userRolesList.includes('admin') || userStore.userRolesList.includes('leader'))"
-            style=" margin-left: 20px; margin-top:20px;" @click="getExcel()">下载比赛Excel</el-button>
+            v-if="userStore.userRolesList && (userStore.userRolesList.includes('admin'))"
+            style=" margin-left: 20px; margin-top:20px;" @click="getExcel()">下载比赛内所有人员Excel</el-button>
         <el-button
-            v-if="userStore.userRolesList && (userStore.userRolesList.includes('admin') || userStore.userRolesList.includes('leader'))"
-            style=" margin-left: 20px; margin-top:20px;" @click="getExcel3()">导出抽签检录Excel</el-button>
+            v-if="userStore.userRolesList && (userStore.userRolesList.includes('admin'))"
+            style=" margin-left: 20px; margin-top:20px;" @click="getExcel3()">武术套路导出抽签检录Excel</el-button>
         <el-input
-            v-if="userStore.userRolesList && (userStore.userRolesList.includes('admin') || userStore.userRolesList.includes('leader'))"
-            style="width: 200px; margin-left: 50px; margin-top:20px;" v-model="input2" placeholder="请输入队伍id"></el-input>
+            v-if="userStore.userRolesList && (userStore.userRolesList.includes('admin'))"
+            style="width: 200px; margin-left: 20px; margin-top:20px;" v-model="input2" placeholder="请输入队伍id"></el-input>
         <el-button
-            v-if="userStore.userRolesList && (userStore.userRolesList.includes('admin') || userStore.userRolesList.includes('leader'))"
+            v-if="userStore.userRolesList && (userStore.userRolesList.includes('admin'))"
             style=" margin-left: 20px; margin-top:20px;" @click="getExcel2()">下载队伍Excel</el-button>
 
         <el-table :data="list" stripe style="width: 100% ;margin-top: 50px;" :row-style="{ height: '60px' }">

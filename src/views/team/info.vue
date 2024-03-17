@@ -12,7 +12,7 @@
             <div>
                 <el-button type="danger" @click="handleQuit()">退出此队伍</el-button>
                 <router-link :to="{ path: '/team/entourage' }"
-                    v-if="userStore.userRolesList && (userStore.userRolesList.includes('admin') || userStore.userRolesList.includes('leader'))">
+                    v-if="userStore.userRolesList && (userStore.userRolesList.includes('admin') || userStore.userRolesList.includes('leader') || userStore.userRolesList.includes('coach'))">
                     <el-button class="thirdparty-button" type="primary" style="margin-left: 20px;">
                         添加随行人员
                     </el-button>
@@ -22,13 +22,19 @@
                         选择组别/选择比赛小项
                     </el-button>
                 </router-link>
+                <el-select placeholder="查看已填写的难度报表" size="large" style="width: 240px;margin-left: 20px;">
+                    
+                    <el-option v-for="item in formList" :key="//@ts-ignore
+                    item.competition" :label="item.competition" :value="item.competition" @click="handleCheckForm(//@ts-ignore
+                item)" />
+                </el-select>
             </div>
             <el-table :data="memberList" stripe style="width: 100% ;margin-top: 50px;" :row-style="{ height: '60px' }">
-                <el-table-column prop="name" label="队员姓名" />
+                <el-table-column prop="user" label="队员姓名" />
                 <el-table-column prop="role" label="队员身份" />
                 <el-table-column prop="phone" label="队员电话" />
                 <el-table-column label="操作"
-                    v-if="userStore.userRolesList && (userStore.userRolesList.includes('admin') || userStore.userRolesList.includes('leader'))">
+                    v-if="userStore.userRolesList && (userStore.userRolesList.includes('admin') || userStore.userRolesList.includes('leader') || userStore.userRolesList.includes('coach'))">
 
                     <template #default="scope">
                         <el-button type="danger" @click="handleGamerQuit(scope.row.id)">退出队伍</el-button>
@@ -55,18 +61,19 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { onMounted } from 'vue'
-import { getTeamMember, getEntourage, quitTeam, quitTeamByPhone, quitTeamById } from '../../api/team.ts'
+import { getTeamMember, getEntourage, quitTeam, quitTeamByPhone, quitTeamById, showAll } from '../../api/team.ts'
 import { ElMessage } from 'element-plus'
 import { useUserStore } from '../../store/useUserStore.ts'
 import { useRoute, useRouter } from 'vue-router';
+import { useTeamStore } from '../../store/useTeamStore'
 const route = useRoute()
 const router = useRouter()
 const userStore = useUserStore()
-
+const teamStore = useTeamStore()
 let memberList = ref([])
 let entourageList = ref([])
 let teamId = ref('init')
-
+const formList = ref([])
 console.log(teamId.value, "this is current team id")
 onMounted(() => {
     if (route.query.teamId) {
@@ -78,6 +85,9 @@ onMounted(() => {
         getEntourage(teamId.value).then(res => {
             entourageList.value = res.data
             console.log(entourageList.value, "this is entourageList")
+        })
+        showAll(userStore.id, teamId.value).then(res => {
+            formList.value = res.data
         })
     }
     else {
@@ -147,6 +157,15 @@ const handleGamerQuit = (id: any) => {
             location.reload();
         }
     })
+}
+const handleCheckForm = (item: any) => {
+    teamStore.select.competition = item.competition;
+    teamStore.select.group = item.group;
+    teamStore.select.team = item.team;
+    teamStore.select.type = item.type;
+    router.push('/team/form')
+
+
 }
 </script>
 

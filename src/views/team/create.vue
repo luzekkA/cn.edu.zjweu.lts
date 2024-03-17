@@ -8,7 +8,8 @@
       </el-page-header>
 
     </el-header>
-    <el-main class="center" style="display: flex; flex-direction: column; align-items: center; justify-content: flex-start;">
+    <el-main class="center"
+      style="display: flex; flex-direction: column; align-items: center; justify-content: flex-start;">
       <el-form ref="ruleFormRef" style="width: 500px" :model="ruleForm" :rules="rules" label-width="auto" class=""
         :size="formSize" status-icon>
         <el-form-item label="队伍名" prop="name">
@@ -42,8 +43,8 @@ import { reactive, ref } from 'vue'
 import { onMounted } from 'vue'
 import { FormInstance, FormRules, ElMessage } from 'element-plus'
 import router from '../../router';
-import {getCompetition} from'../../api/competition.ts'
-import {createTeam} from'../../api/team.ts'
+import { getCompetition, } from '../../api/competition.ts'
+import { createTeam, joinCompetition } from '../../api/team.ts'
 interface RuleForm {
   id: string,
   name: string,
@@ -72,11 +73,11 @@ const rules = reactive<FormRules<RuleForm>>({
     { required: true, message: "请选择赛事", trigger: "change" },
   ]
 })
-let competitionList:any =reactive([])
+let competitionList: any = reactive([])
 onMounted(() => {
   getCompetition().then(data => {
     competitionList.value = data.data
-    console.log(competitionList.value,"this is competitionList")
+    console.log(competitionList.value, "this is competitionList")
   }).catch(error => {
     console.error('Failed to get role list:', error);
   });
@@ -92,11 +93,24 @@ const submitForm = async (formEl: FormInstance | undefined) => {
       createTeam(data).then((res) => {
         //@ts-ignore
         if (res.code == 20000) {
-          ElMessage({
-            message: '队伍创建成功',
-            type: 'success',
+
+          joinCompetition({team:res.data, competition:ruleForm.competition}).then((res2) => {
+            //@ts-ignore
+            if (res2.code == 20000) {
+              ElMessage({
+                message: '队伍创建成功',
+                type: 'success',
+              })
+              router.back()
+            }
+            else {
+              ElMessage({
+                message: '队伍创建失败',
+                type: 'error'
+              })
+            }
+
           })
-          router.back()
         }
         else {
           ElMessage({
@@ -105,7 +119,6 @@ const submitForm = async (formEl: FormInstance | undefined) => {
           })
         }
       })
-
     } else {
       ElMessage({
         message: '请正确输入表内信息',

@@ -70,6 +70,9 @@ export const asyncRoutes: Array<RouteRecordRaw> = [
             {
                 path: 'create',
                 name: "创建队伍",
+                meta: {
+                    roles: ['admin', 'coach', 'leader']
+                },
                 component: () => import('../views/team/create.vue'),
             },
             {
@@ -84,6 +87,7 @@ export const asyncRoutes: Array<RouteRecordRaw> = [
                 path: 'entourage',
                 name: "添加随行人员",
                 meta:{
+                    roles: ['admin', 'coach', 'leader'],
                     hidden:true
                 },
                 component: () => import('../views/team/entourage.vue'),

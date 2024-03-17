@@ -375,7 +375,7 @@ const loadAll = () => {
 //长拳/剑术/刀术/枪术/棍术
 const code1 = [{ value: '111A', level: 'A' }, { value: '112A', level: 'A' }, { value: '123A', level: 'A' }, { value: '153A', level: 'A' },
 { value: '163A', level: 'A' }, { value: '244A', level: 'A' }, { value: '312A', level: 'A' }, { value: '323A', level: 'A' },
-{ value: '333A', level: 'A' }, { value: '335A', level: 'A' },
+{ value: '324A', level: 'A' },{ value: '333A', level: 'A' }, { value: '335A', level: 'A' },
 { value: '133B', level: 'B' }, { value: '224B', level: 'B' }, { value: '312B', level: 'B' }, { value: '323B', level: 'B' },
 { value: '324B', level: 'B' }, { value: '353B', level: 'B' }, { value: '355B', level: 'B' },
 { value: '112C', level: 'C' }, { value: '323C', level: 'C' }, { value: '324C', level: 'C' }, { value: '353C', level: 'C' }]
