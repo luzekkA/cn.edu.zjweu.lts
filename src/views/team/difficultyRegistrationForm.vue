@@ -24,7 +24,7 @@
                     难度分值
                 </td>
                 <td v-for="item in phase1" class="td">
-                    <input v-model="item.value" class="input" @change="refreshTotalValue" />
+                    <input v-model="item.value" class="input" @change="refreshTotalValue" @keypress="refreshTotalValue" />
                 </td>
             </tr>
             <tr>
@@ -55,7 +55,7 @@
                     难度分值
                 </td>
                 <td v-for="item in phase2" class="td">
-                    <input v-model="item.value" class="input" @change="refreshTotalValue" />
+                    <input v-model="item.value" class="input" @change="refreshTotalValue" @keypress="refreshTotalValue" />
                 </td>
             </tr>
             <tr>
@@ -84,7 +84,7 @@
                     难度分值
                 </td>
                 <td v-for="item in phase3" class="td">
-                    <input v-model="item.value" class="input" @change="refreshTotalValue" />
+                    <input v-model="item.value" class="input" @change="refreshTotalValue" @keypress="refreshTotalValue" />
                 </td>
             </tr>
             <tr>
@@ -113,7 +113,7 @@
                     难度分值
                 </td>
                 <td v-for="item in phase4" class="td">
-                    <input v-model="item.value" class="input" @change="refreshTotalValue" />
+                    <input v-model="item.value" class="input" @change="refreshTotalValue" @keypress="refreshTotalValue" />
                 </td>
             </tr>
             <tr>
