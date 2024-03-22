@@ -24,7 +24,7 @@
                     难度分值
                 </td>
                 <td v-for="item in phase1" class="td">
-                    <input v-model="item.value" class="input" />
+                    <input v-model="item.value" class="input" @change="refreshTotalValue" />
                 </td>
             </tr>
             <tr>
@@ -55,7 +55,7 @@
                     难度分值
                 </td>
                 <td v-for="item in phase2" class="td">
-                    <input v-model="item.value" class="input" />
+                    <input v-model="item.value" class="input" @change="refreshTotalValue" />
                 </td>
             </tr>
             <tr>
@@ -84,7 +84,7 @@
                     难度分值
                 </td>
                 <td v-for="item in phase3" class="td">
-                    <input v-model="item.value" class="input" />
+                    <input v-model="item.value" class="input" @change="refreshTotalValue" />
                 </td>
             </tr>
             <tr>
@@ -113,7 +113,7 @@
                     难度分值
                 </td>
                 <td v-for="item in phase4" class="td">
-                    <input v-model="item.value" class="input" />
+                    <input v-model="item.value" class="input" @change="refreshTotalValue" />
                 </td>
             </tr>
             <tr>
@@ -209,7 +209,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue';
+import { ref, onMounted } from 'vue';
 import { difficultyForm, getDifficultyForm } from '../../api/user';
 import { select, isDid } from '../../api/team'
 import { ElMessage } from 'element-plus'
@@ -221,7 +221,7 @@ import html2pdf from 'html2pdf.js';
 //标志是否填写过表
 let isDidFlag = ref(true)
 const teamStore = useTeamStore()
-const phase1 = ref([
+let phase1 = ref([
     { content: '', value: '', action: '' },
     { content: '', value: '', action: '' },
     { content: '', value: '', action: '' },
@@ -230,7 +230,7 @@ const phase1 = ref([
     { content: '', value: '', action: '' },
     { content: '', value: '', action: '' }]);
 
-const phase2 = ref([
+let phase2 = ref([
     { content: '', value: '', action: '' },
     { content: '', value: '', action: '' },
     { content: '', value: '', action: '' },
@@ -239,7 +239,7 @@ const phase2 = ref([
     { content: '', value: '', action: '' },
     { content: '', value: '', action: '' }]);
 
-const phase3 = ref([
+let phase3 = ref([
     { content: '', value: '', action: '' },
     { content: '', value: '', action: '' },
     { content: '', value: '', action: '' },
@@ -248,7 +248,7 @@ const phase3 = ref([
     { content: '', value: '', action: '' },
     { content: '', value: '', action: '' }]);
 
-const phase4 = ref([
+let phase4 = ref([
     { content: '', value: '', action: '' },
     { content: '', value: '', action: '' },
     { content: '', value: '', action: '' },
@@ -258,34 +258,30 @@ const phase4 = ref([
     { content: '', value: '', action: '' }]);
 
 const difficultyCount = ref({
-    actionDifficulty: '', connectDifficulty: '', innovationAction: '', totalDifficulty: computed(() => {
-        let totalValue = 0;
-        totalValue += phase1.value.reduce((sum, item) => sum + Number(item.value), 0);
-        totalValue += phase2.value.reduce((sum, item) => sum + Number(item.value), 0);
-        totalValue += phase3.value.reduce((sum, item) => sum + Number(item.value), 0);
-        totalValue += phase4.value.reduce((sum, item) => sum + Number(item.value), 0);
-        return totalValue
-    })
+    actionDifficulty: '', connectDifficulty: '', innovationAction: '', totalDifficulty: 0
 });
 
-// Your phase data here
-let phaseData = ref({
-    phase1: phase1.value,
-    phase2: phase2.value,
-    phase3: phase3.value,
-    phase4: phase4.value,
-    difficultyCount: difficultyCount.value
-});
+function refreshTotalValue(){
+    let totalValue = 0;
+    totalValue += phase1.value.reduce((sum, item) => sum + Number(item.value), 0);
+    totalValue += phase2.value.reduce((sum, item) => sum + Number(item.value), 0);
+    totalValue += phase3.value.reduce((sum, item) => sum + Number(item.value), 0);
+    totalValue += phase4.value.reduce((sum, item) => sum + Number(item.value), 0);
+    difficultyCount.value.totalDifficulty = totalValue;
+}
+
+
 
 function submitPhaseData() {
     if (levelACount() <= 3) {
-        if (phaseData.value.difficultyCount.totalDifficulty <= 2) {
+        if (difficultyCount.value.totalDifficulty <= 2) {
             const data = {
                 team: teamStore.select.team,
                 type: teamStore.select.type,
                 competition: teamStore.select.competition,
                 groupp: teamStore.select.group
             }
+
             select(data).then((res) => {
                 //@ts-ignore
                 if (res.code == 20000) {
@@ -301,14 +297,20 @@ function submitPhaseData() {
                     })
                 }
             })
-            difficultyForm(teamStore.select.competition, teamStore.select.team, phaseData.value).then(res => {
+            difficultyForm(teamStore.select.competition, teamStore.select.team, {
+                phase1: phase1.value,
+                phase2: phase2.value,
+                phase3: phase3.value,
+                phase4: phase4.value,
+                difficultyCount: difficultyCount.value
+            }).then(res => {
                 //@ts-ignore
                 if (res.code == 20000) {
                     ElMessage({
                         message: '报表提交成功',
                         type: 'success',
                     })
-                    location.reload();
+                    // location.reload();
                 }
                 else {
                     ElMessage({
@@ -335,7 +337,42 @@ function submitPhaseData() {
 }
 
 function clearPhaseData() {
-    location.reload();
+    // location.reload();
+    phase1.value = [
+        { content: '', value: '', action: '' },
+        { content: '', value: '', action: '' },
+        { content: '', value: '', action: '' },
+        { content: '', value: '', action: '' },
+        { content: '', value: '', action: '' },
+        { content: '', value: '', action: '' },
+        { content: '', value: '', action: '' }];
+
+    phase2.value = [
+        { content: '', value: '', action: '' },
+        { content: '', value: '', action: '' },
+        { content: '', value: '', action: '' },
+        { content: '', value: '', action: '' },
+        { content: '', value: '', action: '' },
+        { content: '', value: '', action: '' },
+        { content: '', value: '', action: '' }];
+
+    phase3.value = [
+        { content: '', value: '', action: '' },
+        { content: '', value: '', action: '' },
+        { content: '', value: '', action: '' },
+        { content: '', value: '', action: '' },
+        { content: '', value: '', action: '' },
+        { content: '', value: '', action: '' },
+        { content: '', value: '', action: '' }];
+
+    phase4.value = [
+        { content: '', value: '', action: '' },
+        { content: '', value: '', action: '' },
+        { content: '', value: '', action: '' },
+        { content: '', value: '', action: '' },
+        { content: '', value: '', action: '' },
+        { content: '', value: '', action: '' },
+        { content: '', value: '', action: '' }];
 };
 
 interface RestaurantItem {
@@ -375,7 +412,7 @@ const loadAll = () => {
 //长拳/剑术/刀术/枪术/棍术
 const code1 = [{ value: '111A', level: 'A' }, { value: '112A', level: 'A' }, { value: '123A', level: 'A' }, { value: '153A', level: 'A' },
 { value: '163A', level: 'A' }, { value: '244A', level: 'A' }, { value: '312A', level: 'A' }, { value: '323A', level: 'A' },
-{ value: '324A', level: 'A' },{ value: '333A', level: 'A' }, { value: '335A', level: 'A' },
+{ value: '324A', level: 'A' }, { value: '333A', level: 'A' }, { value: '335A', level: 'A' },
 { value: '133B', level: 'B' }, { value: '224B', level: 'B' }, { value: '312B', level: 'B' }, { value: '323B', level: 'B' },
 { value: '324B', level: 'B' }, { value: '353B', level: 'B' }, { value: '355B', level: 'B' },
 { value: '112C', level: 'C' }, { value: '323C', level: 'C' }, { value: '324C', level: 'C' }, { value: '353C', level: 'C' }]
@@ -443,7 +480,7 @@ onMounted(() => {
                         console.log(res.data, "this is data ")
                         let str: string = res.data
                         // 替换非法字符
-                   
+
                         phase1.value = JSON.parse(str).phase1
                         phase2.value = JSON.parse(str).phase2
                         phase3.value = JSON.parse(str).phase3
