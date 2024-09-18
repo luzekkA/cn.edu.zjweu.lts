@@ -29,10 +29,9 @@ export const useRoutesStore = defineStore(Names.ROUTESSTORE, {
                     this.routesList.push(route)
                 }
             })
-
-
             console.log(this.routesList, "this is routesList")
             return accessedRoutes
+
 
         }
         ,
@@ -52,7 +51,7 @@ export const useRoutesStore = defineStore(Names.ROUTESSTORE, {
 
             return res
         },
-        
+
         //用于判断每一条路由的权限
         hasPermission(roles: string[], route: RouteRecordRaw) {
             if (route.meta && route.meta.roles) {
@@ -76,7 +75,7 @@ export const useRoutesStore = defineStore(Names.ROUTESSTORE, {
 
             return res
         },
-        IsHidden(route: RouteRecordRaw){
+        IsHidden(route: RouteRecordRaw) {
             if (route.meta && route.meta.hidden) {
                 return !route.meta.hidden
             } else {

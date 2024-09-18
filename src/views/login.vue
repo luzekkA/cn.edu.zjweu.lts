@@ -16,7 +16,7 @@
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="submitForm(loginFormRef)">登录</el-button>
-          <el-button @click="goToRegister()">注册</el-button>
+          <el-button @click="goToForgot()">忘记密码</el-button>
         </el-form-item>
       </el-form>
     </el-main>
@@ -29,6 +29,7 @@ import type { FormInstance, FormRules } from 'element-plus'
 import { validid } from '../utils/validate';
 import { useRouter } from 'vue-router';
 import { useUserStore } from '../store/useUserStore'
+import {devLog} from '../utils/devLog'
 const loginFormRef = ref<FormInstance>()
 const userStore = useUserStore()
 const checkId = (rule: any, value: any, callback: any) => {
@@ -63,7 +64,7 @@ const rules = reactive<FormRules<typeof loginForm>>({
   password: [{ validator: checkPass, trigger: 'blur' }],
   id: [{ validator: checkId, trigger: 'blur' }],
 })
-
+const router = useRouter()
 const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return
   formEl.validate((valid) => {
@@ -71,14 +72,17 @@ const submitForm = (formEl: FormInstance | undefined) => {
       console.log('用户密码格式ok')
       userStore.login(loginForm)
         .then(() => {
-          console.log(userStore.token)
-          //重定向到主页
-          router.push('/index')
+          // console.log(userStore.token)
+          devLog("this is accessToken",userStore.token)
+          userStore.getInfo()
+          location.reload()
+          
         })
         .catch(error => {
           // 处理错误
           console.error(error);
         });
+        
     } else {
       console.log('用户密码格式no')
       return false
@@ -87,10 +91,10 @@ const submitForm = (formEl: FormInstance | undefined) => {
 }
 
 
-const router = useRouter()
 
-const goToRegister = () => {
-  router.push('/register') // '/register' 是你在 Vue Router 中定义的注册页面的路由
+
+const goToForgot = () => {
+  router.push('/forgot') // '/register' 是你在 Vue Router 中定义的注册页面的路由
 }
 
 </script>

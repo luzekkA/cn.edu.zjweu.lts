@@ -5,165 +5,241 @@ export const staticRoutes: Array<RouteRecordRaw> = [
     {
         path: "/",
         name: "login",
-        meta:{
-            hidden:true
+        meta: {
+            hidden: true
         },
         component: () => import('../views/login.vue')
-    }, {
-        path: "/register",
-        name: "register",
-        meta:{
-            hidden:true
-        },
-        component: () => import('../views/register/index.vue')
-    }, {
-        path: "/index",
-        component: () => import('../views/Layout/index.vue'),
-        meta: {
-            name:"index",
-        },
-        children: [
-            {
-                path: '',
-                name: "index",
-                component: () => import('../views/index.vue'),
-            }
-        ],
-    },{
-        path: "/user",
-        component: () => import('../views/Layout/index.vue'),
-        meta: {
-            name:"用户",
-        },
-        children: [
-            {
-                path: 'userinfo',
-                name: "用户个人信息",
-                component: () => import('../views/userinfo/index.vue'),
-            }
-        ],
-    },{
+    },
+    // }, {
+    //     path: "/register",
+    //     name: "register",
+    //     meta: {
+    //         hidden: true
+    //     },
+    //     component: () => import('../views/register/index.vue')
+    // },
+    // {
+    //     path: "/index",
+    //     component: () => import('../views/Layout/index.vue'),
+    //     meta: {
+    //         icon: 'HomeFilled'
+    //     },
+    //     children: [
+    //         {
+    //             path: '',
+    //             name: "index",
+    //             component: () => import('../views/index.vue'),
+    //         }
+    //     ],
+    // }, 
+    {
         // path: '/404',
-        path: '/:pathMatch(.*)*', 
-        meta:{
-            hidden:true
+        path: '/:pathMatch(.*)*',
+        meta: {
+            hidden: true
         },
         component: () => import('../views/error-page/404.vue'),
+    },
+    {
+        // path: '/404',
+        path: '/forgot',
+        name: "forgot",
+        meta: {
+            hidden: true
+        },
+        component: () => import('../views/forgot.vue'),
     },
 
 ]
 //定义动态路由
 export const asyncRoutes: Array<RouteRecordRaw> = [
     {
-        path: "/team",
+        path: "/editUser",
         component: () => import('../views/Layout/index.vue'),
         meta: {
-            name: '队伍',
-            roles: ['admin', 'coach', 'leader', 'player']
+            name: '搜索用户',
+            roles: ['ADMIN'],
+            icon: 'HomeFilled'
         },
         children: [
             {
-                path: 'index',
-                name: "我的队伍",
-                component: () => import('../views/team/index.vue'),
+                path: 'search',
+                name: "搜索用户",
+                component: () => import('../views/admin/user/index.vue'),
             },
             {
-                path: 'create',
-                name: "创建队伍",
+                path: 'detail',
+                name: "用户详情",
                 meta: {
-                    roles: ['admin', 'coach', 'leader']
+                    hidden: true
                 },
-                component: () => import('../views/team/create.vue'),
-            },
-            {
-                path: 'info',
-                name: "队伍详情",
-                meta:{
-                    hidden:true
-                },
-                component: () => import('../views/team/info.vue'),
-            },
-            {
-                path: 'entourage',
-                name: "添加随行人员",
-                meta:{
-                    roles: ['admin', 'coach', 'leader'],
-                    hidden:true
-                },
-                component: () => import('../views/team/entourage.vue'),
-            },
-            {
-                path: 'select',
-                name: "选择组别/选择小项",
-                meta:{
-                    hidden:true
-                },
-                component: () => import('../views/team/select.vue'),
-            },
-            {
-                path: 'form',
-                name: "难度报表",
-                meta:{
-                    hidden:true
-                },
-                component: () => import('../views/team/difficultyRegistrationForm.vue'),
+                component: () => import('../views/admin/user/detail.vue'),
             }
         ],
     },
     {
-        path: "/competition",
+        path: "/editCourses",
         component: () => import('../views/Layout/index.vue'),
         meta: {
-            name: '比赛',
-            roles: ['admin', 'coach', 'leader', 'player']
+            name: '搜索课程',
+            roles: ['ADMIN'],
+            icon: 'HomeFilled'
         },
         children: [
             {
-                path: 'create',
-                name: "创建比赛",
-                meta:{
-                    roles: ['admin']
+                path: 'index',
+                name: "搜索课程",
+                component: () => import('../views/admin/courses/index.vue'),
+            }
+            // {
+            //     path: 'detail',
+            //     name: "课程详情",
+            //     meta: {
+            //         hidden: true
+            //     },
+            //     component: () => import('../views/admin/courses/detail.vue'),
+            // }
+        ],
+    },
+    {
+        path: "/editTopic",
+        component: () => import('../views/Layout/index.vue'),
+        meta: {
+            name: '搜索题目',
+            roles: ['ADMIN'],
+            icon: 'HomeFilled'
+        },
+        children: [
+            {
+                path: 'search',
+                name: "搜索题目",
+                component: () => import('../views/admin/topic/index.vue'),
+            },{
+                path: 'detail',
+                name: "题目详情",
+                meta: {
+                    hidden: true
                 },
-                component: () => import('../views/competition/create.vue'),
-            },
+                component: () => import('../views/admin/topic/detail.vue'),
+            }
+        ],
+    },
+    {
+        path: "/editClass",
+        component: () => import('../views/Layout/index.vue'),
+        meta: {
+            name: '搜索班级',
+            roles: ['ADMIN'],
+            icon: 'HomeFilled'
+        },
+        children: [
             {
                 path: 'index',
-                name: "比赛详情",
-                meta:{
-                    roles: ['admin', 'coach', 'leader', 'player']
-                },
-                component: () => import('../views/competition/index.vue'),
+                name: "搜索班级",
+                component: () => import('../views/admin/class/index.vue'),
             }
- 
+        ],
+    },
+
+    {
+        path: "/Student",
+        component: () => import('../views/Layout/index.vue'),
+        meta: {
+            name: '我的课程',
+            roles: ['STUDENT'],
+            icon: 'HomeFilled'
+        },
+        children: [
+            {
+                path: '',
+                name: "我的课程",
+                component: () => import('../views/student/courses/index.vue'),
+            }
+            , {
+                path: 'CourseTopic',
+                name: "课程题目",
+                meta: {
+                    hidden: true
+                },
+                component: () => import('../views/student/topicList/index.vue'),
+            }
+            , {
+                path: 'TopicDetail',
+                name: "题目",
+                meta: {
+                    hidden: true
+                },
+                component: () => import('../views/student/topicDetail/index.vue'),
+            }
         ]
     },
     {
-        path: "/payment",
+        path: "/Teacher",
         component: () => import('../views/Layout/index.vue'),
         meta: {
-            name: '缴费相关',
-            roles: ['admin', 'coach', 'leader', 'player']
+            name: '课程列表',
+            roles: ['TEACHER'],
+            icon: 'HomeFilled'
         },
         children: [
             {
-                path: 'index',
-                name: "提交缴费凭证",
-                meta:{
-                    roles: ['admin', 'coach', 'leader', 'player']
-                },
-                component: () => import('../views/payment/index.vue'),
+                path: '',
+                name: "课程列表",
+                component: () => import('../views/teacher/courses/index.vue'),
             },
             {
-                path: 'check',
-                name: "管理人员人工校对",
-                meta:{
-                    roles: ['admin']
+                path: 'ClassList',
+                name: "课程详情",
+                meta: {
+                    hidden: true
                 },
-                component: () => import('../views/payment/check.vue'),
+                component: () => import('../views/teacher/courseDetail/index.vue'),
+            },
+            {
+                path: 'ClassDetail',
+                name: "班级详情",
+                meta: {
+                    hidden: true
+                },
+                component: () => import('../views/teacher/classDetail/index.vue'),
+            },
+            {
+                path: 'TopicUploadDetail',
+                name: "题目提交详情",
+                meta: {
+                    hidden: true
+                },
+                component: () => import('../views/teacher/topicUploadDetail/index.vue'),
             }
- 
+            ,
+            {
+                path: 'ReportDetail',
+                name: "报告详情",
+                meta: {
+                    hidden: true
+                },
+                component: () => import('../views/teacher/reportDetail/index.vue'),
+            },
+            {
+                path: 'Topics',
+                name: "题库",
+                meta: {
+                    hidden: true
+                },
+                component: () => import('../views/teacher/topics/index.vue'),
+            }
+            // {
+            //     path: 'TopicDetail',
+            //     name: "题目详情",
+            //     meta: {
+            //         hidden: true
+            //     },
+            //     component: () => import('../views/teacher/topics/detail.vue'),
+            // }
+
+
         ]
-    },
+    }
 ]
 //静态路由直接添加到router
 let router = createRouter({

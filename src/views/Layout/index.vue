@@ -4,21 +4,26 @@
         <Navbar />
       </el-header>
       <el-container>
-        <el-aside width="200px">
-        <Aside />
+        <el-aside id="aside">
+        <Aside :name="userStore.name" :id="userStore.id"/>
         </el-aside>
         <el-main><router-view></router-view></el-main>
       </el-container>
     </el-container>
 </template>
 <script setup lang='ts'>
-import Aside from "./components/Aside.vue"
-import Navbar from "./components/Navbar.vue"
+import Aside from "./Aside/index.vue"
+import Navbar from "./Navbar/Navbar.vue"
+import {useUserStore} from "../../store/useUserStore"
+const userStore = useUserStore()
 </script>
 <style>
 #header{
   padding: 0px;
-  height: 80px;
+  height: 55px;
+}
+#aside{
+  width:215px;
 }
 .container{
   width: 100%;
